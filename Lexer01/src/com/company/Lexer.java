@@ -7,12 +7,7 @@ public class Lexer {
 
     public static int line = 1;
     private char peek = ' ';
-    private ArrayList<Word> reserved = new ArrayList<Word>() {
-        {
-            add(new Word());
-
-        }
-    };
+    private ArrayList<Word> identifiers = new ArrayList<Word>();
 
 
     private void readch(BufferedReader br) {
@@ -22,7 +17,6 @@ public class Lexer {
             peek = (char) -1; // ERROR
         }
     }
-
 
 
     public Token lexical_scan(BufferedReader br) {
@@ -92,7 +86,7 @@ public class Lexer {
                     return Word.or;
                 } else {
                     System.err.println("Erroneous character"
-                            + " after & : " + peek);
+                            + " after | : " + peek);
                     return null;
                 }
 
@@ -105,7 +99,7 @@ public class Lexer {
                     return Word.ne;
                 } else {
                     System.err.println("Erroneous character"
-                            + " after & : " + peek);
+                            + " after < : " + peek);
                     return null;
                 }
 
@@ -118,7 +112,7 @@ public class Lexer {
                     return Word.gt;
                 } else {
                     System.err.println("Erroneous character"
-                            + " after & : " + peek);
+                            + " after > : " + peek);
                     return null;
                 }
 
@@ -131,7 +125,7 @@ public class Lexer {
                     return Token.assign;
                 } else {
                     System.err.println("Erroneous character"
-                            + " after & : " + peek);
+                            + " after = : " + peek);
                     return null;
                 }
 
@@ -143,33 +137,32 @@ public class Lexer {
                     // ... gestire il caso degli identificatori e delle parole chiave //
                     String id = "" + peek;
                     readch(br);
-                    while(Character.isDigit(peek) || Character.isLetter(peek)){
+                    while (Character.isDigit(peek) || Character.isLetter(peek)) {
                         id += peek;
                         readch(br);
                     }
-                    if(reserved.contains(id)){
-                        switch(id){
-                            case "cond":
-                                return Word.cond;
-                            case "when":
-                                return Word.when;
-                            case "then":
-                                return Word.then;
-                            case "else":
-                                return Word.elsetok;
-                            case "while":
-                                return Word.whiletok;
-                            case "do":
-                                return Word.dotok;
-                            case "seq":
-                                return Word.seq;
-                            case "print":
-                                return Word.print;
-                            case "read":
-                                return Word.read;
-                        }
-                    }else{
-                        return new Word(Tag.ID, id);
+                    switch (id) {
+                        case "cond":
+                            return Word.cond;
+                        case "when":
+                            return Word.when;
+                        case "then":
+                            return Word.then;
+                        case "else":
+                            return Word.elsetok;
+                        case "while":
+                            return Word.whiletok;
+                        case "do":
+                            return Word.dotok;
+                        case "seq":
+                            return Word.seq;
+                        case "print":
+                            return Word.print;
+                        case "read":
+                            return Word.read;
+                        default:
+                            identifiers.add(new Word(Tag.ID, id));
+                            return new Word(Tag.ID, id);
                     }
 
                 } else if (Character.isDigit(peek)) {
@@ -187,12 +180,11 @@ public class Lexer {
                     return null;
                 }
         }
-        return null;
     }
 
     public static void main(String[] args) {
         Lexer lex = new Lexer();
-        String path = "C:/Users/Vitto/Documents/Intellij/LFT/1.9/Lexer01/src/com/company/prova.txt"; // il percorso del file da leggere
+        String path = "C:\\Users\\Vitto\\Documents\\GitHub\\LinguaggiFormali\\Lexer01\\src\\com\\company\\prova.txt"; // il percorso del file da leggere
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             Token tok;
