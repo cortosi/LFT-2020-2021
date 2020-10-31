@@ -173,7 +173,13 @@ public class Lexer {
                         number += peek;
                         readch(br);
                     }
-                    return new NumberTok(Tag.NUM, Integer.parseInt(number));
+                    if(peek == ' '){
+                        return new NumberTok(Tag.NUM, Integer.parseInt(number));
+                    }else{
+                        System.err.println("Erroneous character: "
+                                + peek);
+                        return null;
+                    }
                 } else {
                     System.err.println("Erroneous character: "
                             + peek);
