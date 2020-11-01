@@ -98,9 +98,7 @@ public class Lexer {
                 } else if (peek == '>') {
                     return Word.ne;
                 } else {
-                    System.err.println("Erroneous character"
-                            + " after < : " + peek);
-                    return null;
+                    return Word.lt;
                 }
 
             case '>':
@@ -108,12 +106,8 @@ public class Lexer {
                 if (peek == '=') {
                     peek = ' ';
                     return Word.ge;
-                } else if (Character.isDigit(peek)) {
-                    return Word.gt;
                 } else {
-                    System.err.println("Erroneous character"
-                            + " after > : " + peek);
-                    return null;
+                    return Word.gt;
                 }
 
             case '=':
@@ -121,12 +115,8 @@ public class Lexer {
                 if (peek == '=') {
                     peek = ' ';
                     return Word.eq;
-                } else if (Character.isDigit(peek)) {
-                    return Token.assign;
                 } else {
-                    System.err.println("Erroneous character"
-                            + " after = : " + peek);
-                    return null;
+                    return Word.assign;
                 }
 
             case (char) -1:
