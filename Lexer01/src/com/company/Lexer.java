@@ -20,8 +20,35 @@ public class Lexer {
 
 
     public Token lexical_scan(BufferedReader br) {
-        while (peek == ' ' || peek == '\t' || peek == '\n' || peek == '\r') {
-            if (peek == '\n') line++;
+        while (peek == ' ' || peek == '\t' || peek == '\n' || peek == '\r' || peek == '/') {
+            //Gestione commenti
+            if (peek == '/') {
+                readch(br);
+                if (peek == '*') {
+                    readch(br);
+                    while (peek != '*') {
+                        readch(br);
+                        if (peek == '\n') {
+                            line++;
+                        }
+                    }
+                    readch(br);
+                    if (peek == '/') {
+                        readch(br);
+                    } else {
+                        System.err.println("Erroneous character"
+                                + " after * : " + peek);
+                        return null;
+                    }
+                } else if (peek == '/') {
+                    while (peek != '\n') {
+                        readch(br);
+                    }
+                }
+            }
+            if (peek == '\n') {
+                line++;
+            }
             readch(br);
         }
 
@@ -123,11 +150,18 @@ public class Lexer {
                 return new Token(Tag.EOF);
 
             default:
-                if (Character.isLetter(peek)) {
+                if (Character.isLetter(peek) || peek == '_') {
                     // ... gestire il caso degli identificatori e delle parole chiave //
+                    // ([a-zA-Z] | ( _(_)*[a-zA-Z0-9])) ([a-zA-Z0-9] | _ )
                     String id = "" + peek;
-                    readch(br);
-                    while (Character.isDigit(peek) || Character.isLetter(peek)) {
+                    if(peek == '_'){
+                        readch(br);
+                        while (peek == '_'){
+                            id += peek;
+                            readch(br);
+                        }
+                    }
+                    while (Character.isDigit(peek) || Character.isLetter(peek) || peek == '_') {
                         id += peek;
                         readch(br);
                     }
@@ -163,12 +197,11 @@ public class Lexer {
                         number += peek;
                         readch(br);
                     }
-                    if(peek == ' ' || peek == (char)-1){
-                        return new NumberTok(Tag.NUM, Integer.parseInt(number));
-                    }else{
-                        System.err.println("Erroneous character: "
-                                + peek);
+                    if (number.charAt(0) == '0') {
+                        System.err.println("Error, " + number + " cannot be a number.");
                         return null;
+                    } else {
+                        return new NumberTok(Tag.NUM, Integer.parseInt(number));
                     }
                 } else {
                     System.err.println("Erroneous character: "
