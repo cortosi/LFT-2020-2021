@@ -123,6 +123,7 @@ public class Lexer {
                     peek = ' ';
                     return Word.le;
                 } else if (peek == '>') {
+                    peek = ' ';
                     return Word.ne;
                 } else {
                     return Word.lt;
