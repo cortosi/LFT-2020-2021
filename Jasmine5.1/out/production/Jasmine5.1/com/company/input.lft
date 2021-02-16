@@ -1,5 +1,10 @@
 read(x);
 read(y);
+/*
+
+ciao*ciao
+
+*/
 while(<> x y)
         cond    when (> x 25) do {= x - x y; print(1111)}
                 when (> x y) do {= x - x y; print(x)}

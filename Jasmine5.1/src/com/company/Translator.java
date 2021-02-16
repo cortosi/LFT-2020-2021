@@ -292,7 +292,7 @@ public class Translator {
 
     public static void main(String[] args) {
         Lexer lex = new Lexer();
-        String path = "/Users/vitto/Desktop/input.lft"; // il percorso del file da leggere
+        String path = "C:\\Users\\Vitto\\Documents\\GitHub\\LinguaggiFormali\\Jasmine5.1\\src\\com\\company\\input.lft"; // il percorso del file da leggere
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             Translator translator = new Translator(lex, br);

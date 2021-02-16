@@ -26,25 +26,28 @@ public class Lexer {
                 readch(br);
                 if (peek == '*') {
                     readch(br);
-                    while (peek != '*') {
-                        readch(br);
+                    boolean closed = true;
+                    while (closed && peek != (char) -1) {
+                        if(peek == '*'){
+                            readch(br);
+                            if(peek == '/'){
+                                closed = false;
+                            }
+                        }
                         if (peek == '\n') {
                             line++;
                         }
+                        readch(br);
                     }
-                    readch(br);
-                    if (peek == '/') {
-                        peek = ' ';
-                    } else {
-                        System.err.println("Erroneous character"
-                                + " after * : " + peek);
+                    if(closed && peek == (char) -1){
+                        System.out.println("Il commento è stato chiuso in maniera errata.");
                         return null;
                     }
                 } else if (peek == '/') {
-                    while (peek != '\n' && peek != (char)-1) {
+                    while (peek != '\n' && peek != (char) -1) {
                         readch(br);
                     }
-                }else{
+                } else {
                     return Token.div;
                 }
             }
@@ -102,7 +105,6 @@ public class Lexer {
                             + " after & : " + peek);
                     return null;
                 }
-
             case '|':
                 readch(br);
                 if (peek == '|') {
@@ -113,7 +115,6 @@ public class Lexer {
                             + " after | : " + peek);
                     return null;
                 }
-
             case '<':
                 readch(br);
                 if (peek == '=') {
@@ -125,7 +126,6 @@ public class Lexer {
                 } else {
                     return Word.lt;
                 }
-
             case '>':
                 readch(br);
                 if (peek == '=') {
@@ -134,7 +134,6 @@ public class Lexer {
                 } else {
                     return Word.gt;
                 }
-
             case '=':
                 readch(br);
                 if (peek == '=') {
@@ -143,18 +142,16 @@ public class Lexer {
                 } else {
                     return Word.assign;
                 }
-
             case (char) -1:
                 return new Token(Tag.EOF);
-
             default:
                 if (Character.isLetter(peek) || peek == '_') {
                     // ... gestire il caso degli identificatori e delle parole chiave //
                     // ([a-zA-Z] | ( _(_)*[a-zA-Z0-9])) ([a-zA-Z0-9] | _ )
                     String id = "";
-                    if(peek == '_'){
+                    if (peek == '_') {
                         readch(br);
-                        while (peek == '_'){
+                        while (peek == '_') {
                             id += peek;
                             readch(br);
                         }
@@ -186,7 +183,6 @@ public class Lexer {
                             identifiers.add(new Word(Tag.ID, id));
                             return new Word(Tag.ID, id);
                     }
-
                 } else if (Character.isDigit(peek)) {
                     // ... gestire il caso dei numeri ... //
                     String number = "" + peek;
