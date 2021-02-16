@@ -261,7 +261,7 @@ public class Translator {
         switch (look.tag) {
             case '+', '-', '*', '/', Tag.NUM, Tag.ID:
                 expr();
-                if(opcode == OpCode.invokestatic){
+                if (opcode == OpCode.invokestatic) {
                     code.emit(OpCode.invokestatic, 1);
                 }
                 exprlistp(opcode);
@@ -275,9 +275,9 @@ public class Translator {
         switch (look.tag) {
             case '+', '-', '*', '/', Tag.NUM, Tag.ID:
                 expr();
-                if(opcode == OpCode.invokestatic){
+                if (opcode == OpCode.invokestatic) {
                     code.emit(OpCode.invokestatic, 1);
-                }else {
+                } else {
                     code.emit(opcode);
                 }
                 exprlistp(opcode);
