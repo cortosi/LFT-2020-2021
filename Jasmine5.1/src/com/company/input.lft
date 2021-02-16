@@ -1,0 +1,7 @@
+read(x);
+read(y);
+while(<> x y)
+        cond    when (> x 25) do {= x - x y; print(1111)}
+                when (> x y) do {= x - x y; print(x)}
+                else {= x +(x 1); print(x)};
+print(y *(y y) *(y y y))
