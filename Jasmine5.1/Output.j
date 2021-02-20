@@ -36,12 +36,12 @@
  istore 1
 L2:
  iload 0
- iload 1
- if_icmpne L0
+ ldc 0
+ if_icmpgt L0
  goto L1
 L0:
  iload 0
- ldc 25
+ iload 1
  if_icmpgt L4
  goto L5
 L4:
@@ -49,42 +49,38 @@ L4:
  iload 1
  isub 
  istore 0
- ldc 1111
+ iload 0
  invokestatic Output/print(I)V
  goto L3
 L5:
  iload 0
  iload 1
- if_icmpgt L6
+ if_icmpeq L6
  goto L7
 L6:
  iload 0
- iload 1
+ ldc 1
  isub 
  istore 0
- iload 0
+ ldc 100
  invokestatic Output/print(I)V
  goto L3
 L7:
  iload 0
  ldc 1
- iadd 
+ isub 
  istore 0
  iload 0
  invokestatic Output/print(I)V
 L3:
  goto L2
 L1:
- iload 1
+ iload 0
  invokestatic Output/print(I)V
- iload 1
- iload 1
+ ldc 2
+ ldc 3
  imul 
- invokestatic Output/print(I)V
- iload 1
- iload 1
- imul 
- iload 1
+ ldc 4
  imul 
  invokestatic Output/print(I)V
  return

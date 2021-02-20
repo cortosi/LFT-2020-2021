@@ -10,7 +10,6 @@ public class Lexer {
 
     public static int line = 1;
     private char peek = ' ';
-    private ArrayList<Word> identifiers = new ArrayList<Word>();
 
 
     private void readch(BufferedReader br) {
@@ -31,9 +30,9 @@ public class Lexer {
                     readch(br);
                     boolean closed = true;
                     while (closed && peek != (char) -1) {
-                        if(peek == '*'){
+                        if (peek == '*') {
                             readch(br);
-                            if(peek == '/'){
+                            if (peek == '/') {
                                 closed = false;
                             }
                         }
@@ -42,7 +41,7 @@ public class Lexer {
                         }
                         readch(br);
                     }
-                    if(closed && peek == (char) -1){
+                    if (closed && peek == (char) -1) {
                         System.out.println("Il commento è stato chiuso in maniera errata.");
                         return null;
                     }
@@ -152,16 +151,18 @@ public class Lexer {
                     // ... gestire il caso degli identificatori e delle parole chiave //
                     // ([a-zA-Z] | ( _(_)*[a-zA-Z0-9])) ([a-zA-Z0-9] | _ )
                     String id = "";
-                    if (peek == '_') {
-                        readch(br);
-                        while (peek == '_') {
-                            id += peek;
-                            readch(br);
-                        }
-                    }
+                    boolean invalid = true;
                     while (Character.isDigit(peek) || Character.isLetter(peek) || peek == '_') {
+                        if (Character.isDigit(peek) || Character.isLetter(peek)) {
+                            invalid = false;
+                        }
                         id += peek;
                         readch(br);
+                    }
+                    if (invalid) {
+                        System.err.println("Erroneous character: "
+                                + peek);
+                        return null;
                     }
                     switch (id) {
                         case "cond":
@@ -183,7 +184,6 @@ public class Lexer {
                         case "read":
                             return Word.read;
                         default:
-                            identifiers.add(new Word(Tag.ID, id));
                             return new Word(Tag.ID, id);
                     }
                 } else if (Character.isDigit(peek)) {
@@ -193,6 +193,10 @@ public class Lexer {
                     while (Character.isDigit(peek)) {
                         number += peek;
                         readch(br);
+                    }
+                    if (Character.isLetter(peek) || peek == '_') {
+                        System.err.println("Error, " + number + " cannot be a number.");
+                        return null;
                     }
                     if (number.length() > 1 && number.charAt(0) == '0') {
                         System.err.println("Error, " + number + " cannot be a number.");

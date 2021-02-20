@@ -1,7 +1,9 @@
-read(x);
-read(y);
-while(<> x y)
-        cond    when (> x 25) do {= x - x y; print(1111)}
-                when (> x y) do {= x - x y; print(x)}
-                else {= x +(x 1); print(x)};
-print(y *(y y) *(y y y))
+/* comment ***/
+read(_x1);
+read(y_2);
+while(> _x1 0)
+  cond  when(> _x1 y_2) do {= _x1 - _x1 y_2; print(_x1)}
+      when (== _x1 y_2) do {= _x1 - _x1 1; print(100)}
+      else {= _x1 - _x1 1; print(_x1)};
+print(_x1 *(2 3 4))
+//commento
