@@ -7,7 +7,6 @@ public class Translator {
     private Lexer lex;
     private BufferedReader pbr;
     private Token look;
-    private Stack<Integer> multiple_value = new Stack<>();
 
     SymbolTable st = new SymbolTable();
     CodeGenerator code = new CodeGenerator();

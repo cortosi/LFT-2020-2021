@@ -146,6 +146,7 @@ public class Lexer {
                 }
             case (char) -1:
                 return new Token(Tag.EOF);
+
             default:
                 if (Character.isLetter(peek) || peek == '_') {
                     // ... gestire il caso degli identificatori e delle parole chiave //
